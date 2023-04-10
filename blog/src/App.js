@@ -10,6 +10,8 @@ function App() {
   ]);
   let [logo, setLogo] = useState("ReactBlog");
   let [like, setlike] = useState(0);
+  let [modal, setModal] = useState(false);
+  //작명은 앞은 그렇다해도 뒤에는 set~~
   function setDate() {
     let copy = [...title];
     copy[0] = "여자 코트 추천";
@@ -53,14 +55,20 @@ function App() {
         </button> 잘못된 변경법임 */}
       </div>
       <div className="list">
-        <h4> {title[1]}</h4>
+        <h4
+          onClick={() => {
+            setModal(!modal);
+          }}
+        >
+          {title[1]}
+        </h4>
         <p>2월17일 발행</p>
       </div>
       <div className="list">
         <h4> {title[2]}</h4>
         <p>2월17일 발행</p>
       </div>
-      <Modal />
+      {modal == true ? <Modal /> : null}
     </div>
   );
 }
