@@ -11,7 +11,14 @@ function App() {
   let [logo, setLogo] = useState("ReactBlog");
   let [like, setlike] = useState(0);
   let [modal, setModal] = useState(false);
+
+  let [liked, setliked] = useState([1, 2, 3]);
+
   //작명은 앞은 그렇다해도 뒤에는 set~~
+
+  // [1, 2, 3].map(function () {
+  //   console.log(1);
+  // });
   function setDate() {
     let copy = [...title];
     copy[0] = "여자 코트 추천";
@@ -32,7 +39,7 @@ function App() {
       >
         가나다순 정렬
       </button>
-      <div className="list">
+      {/* <div className="list">
         <h4>
           {title[0]}
           <span
@@ -44,17 +51,17 @@ function App() {
           </span>
           {like}
         </h4>
-        <p>2월17일 발행</p>
+        <p>2월17일 발행</p> */}
 
-        {/* <button
+      {/* <button
           onClick={() => {
             settitle(["여자 코트 추천", "강남 우동 맛집", "여자 신발 추천"]);
           }}
         >
           이름변경
         </button> 잘못된 변경법임 */}
-      </div>
-      <div className="list">
+      {/* </div> */}
+      {/* <div className="list">
         <h4
           onClick={() => {
             setModal(!modal);
@@ -67,8 +74,33 @@ function App() {
       <div className="list">
         <h4> {title[2]}</h4>
         <p>2월17일 발행</p>
-      </div>
+      </div> */}
       {modal == true ? <Modal /> : null}
+
+      {title.map(function (i, a) {
+        return (
+          <div className="list" key={i}>
+            <h4
+              onClick={() => {
+                setModal(!modal);
+              }}
+            >
+              {title[a]}
+            </h4>
+            <span
+              onClick={() => {
+                let copy = [...liked];
+                copy[a] = copy[a] + 1;
+                setliked(copy);
+              }}
+            >
+              🫰
+            </span>
+            {liked[a]}
+            <p>2월17일 발행</p>
+          </div>
+        );
+      })}
     </div>
   );
 }
