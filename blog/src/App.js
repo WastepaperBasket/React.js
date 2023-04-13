@@ -75,7 +75,9 @@ function App() {
         <h4> {title[2]}</h4>
         <p>2월17일 발행</p>
       </div> */}
-      {modal == true ? <Modal /> : null}
+      {modal == true ? (
+        <Modal setDate={setDate} color={"yellow"} title={title} />
+      ) : null}
 
       {title.map(function (i, a) {
         return (
@@ -104,13 +106,14 @@ function App() {
     </div>
   );
 }
-function Modal() {
+function Modal(props) {
   return (
     <>
-      <div className="modal">
-        <h4>제목</h4>
+      <div className="modal" style={{ background: props.color }}>
+        <h4>{props.title[0]}</h4>
         <p>날짜</p>
         <p>상세내용</p>
+        <button onClick={props.setDate}>글수정</button>
       </div>
     </>
   );
