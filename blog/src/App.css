@@ -51,6 +51,9 @@ div {
   text-align: left;
   border-bottom: 1px solid grey;
 }
+h4 {
+  cursor: pointer;
+}
 .list > h4 > span {
   cursor: pointer;
 }

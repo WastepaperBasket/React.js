@@ -13,12 +13,8 @@ function App() {
   let [modal, setModal] = useState(false);
 
   let [liked, setliked] = useState([1, 2, 3]);
+  let [title2, setTitle2] = useState(0);
 
-  //작명은 앞은 그렇다해도 뒤에는 set~~
-
-  // [1, 2, 3].map(function () {
-  //   console.log(1);
-  // });
   function setDate() {
     let copy = [...title];
     copy[0] = "여자 코트 추천";
@@ -39,52 +35,24 @@ function App() {
       >
         가나다순 정렬
       </button>
-      {/* <div className="list">
-        <h4>
-          {title[0]}
-          <span
-            onClick={() => {
-              setlike(like++);
-            }}
-          >
-            🫰
-          </span>
-          {like}
-        </h4>
-        <p>2월17일 발행</p> */}
 
-      {/* <button
-          onClick={() => {
-            settitle(["여자 코트 추천", "강남 우동 맛집", "여자 신발 추천"]);
-          }}
-        >
-          이름변경
-        </button> 잘못된 변경법임 */}
-      {/* </div> */}
-      {/* <div className="list">
-        <h4
-          onClick={() => {
-            setModal(!modal);
-          }}
-        >
-          {title[1]}
-        </h4>
-        <p>2월17일 발행</p>
-      </div>
-      <div className="list">
-        <h4> {title[2]}</h4>
-        <p>2월17일 발행</p>
-      </div> */}
       {modal == true ? (
-        <Modal setDate={setDate} color={"yellow"} title={title} />
+        <Modal
+          setDate={setDate}
+          color={"yellow"}
+          title2={title2}
+          title={title}
+        />
       ) : null}
 
       {title.map(function (i, a) {
+        // a는 0이 되고 , 1이 되는..
         return (
-          <div className="list" key={i}>
+          <div className="list" key={a}>
             <h4
               onClick={() => {
                 setModal(!modal);
+                setTitle2(a);
               }}
             >
               {title[a]}
@@ -107,10 +75,11 @@ function App() {
   );
 }
 function Modal(props) {
+  // let [title2, setTitle2] = useState(0);
   return (
     <>
       <div className="modal" style={{ background: props.color }}>
-        <h4>{props.title[0]}</h4>
+        <h4>{props.title[props.title2]}</h4>
         <p>날짜</p>
         <p>상세내용</p>
         <button onClick={props.setDate}>글수정</button>
