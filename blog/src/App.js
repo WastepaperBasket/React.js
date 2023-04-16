@@ -15,6 +15,8 @@ function App() {
   let [liked, setliked] = useState([1, 2, 3]);
   let [title2, setTitle2] = useState(0);
 
+  let [입력값, 입력값변경] = useState("");
+
   function setDate() {
     let copy = [...title];
     copy[0] = "여자 코트 추천";
@@ -71,6 +73,13 @@ function App() {
           </div>
         );
       })}
+      <input
+        onChange={(e) => {
+          입력값변경(e.target.value);
+          console.log(입력값);
+        }}
+      />
+      {/* <button onClick={}>버튼</button> */}
     </div>
   );
 }
