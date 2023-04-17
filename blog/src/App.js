@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
+import React from "react";
 
 function App() {
   let [title, settitle] = useState([
@@ -70,16 +71,34 @@ function App() {
             </span>
             {liked[a]}
             <p>2월17일 발행</p>
+            <button
+              onClick={() => {
+                let copy = [...title];
+                copy.splice(a, 1);
+                settitle(copy);
+              }}
+            >
+              삭제
+            </button>
           </div>
         );
       })}
+      <Modal2></Modal2>
       <input
         onChange={(e) => {
           입력값변경(e.target.value);
           console.log(입력값);
         }}
       />
-      {/* <button onClick={}>버튼</button> */}
+      <button
+        onClick={() => {
+          let copy = [...title];
+          copy.unshift(입력값);
+          settitle(copy);
+        }}
+      >
+        글발행
+      </button>
     </div>
   );
 }
@@ -96,4 +115,29 @@ function Modal(props) {
     </>
   );
 }
+
+class Modal2 extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      name: "kim",
+      age: 20,
+    };
+  }
+  render() {
+    return (
+      <div>
+        앙뇽 {this.state.name} {this.state.age}
+        <button
+          onClick={() => {
+            this.setState({ age: 21 });
+          }}
+        >
+          버튼
+        </button>
+      </div>
+    );
+  }
+}
+
 export default App;
