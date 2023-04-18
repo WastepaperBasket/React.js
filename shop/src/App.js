@@ -1,6 +1,8 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Navbar, Container, Nav } from "react-bootstrap";
+import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
+
+import bg from "./img/bg.png";
 function App() {
   return (
     <div className="App">
@@ -14,6 +16,36 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
+      <div
+        className="main-bg"
+        style={{ backgroundImage: "url(" + bg + ")" }}
+      ></div>
+
+      <Container>
+        <Row>
+          <Col>
+            <img
+              className="shop-item"
+              src="https://codingapple1.github.io/shop/shoes1.jpg"
+            />
+            <h4>상품명</h4> <p>상품설명</p>
+          </Col>
+          <Col>
+            <img
+              className="shop-item"
+              src="https://codingapple1.github.io/shop/shoes2.jpg"
+            />
+            <h4>상품명</h4> <p>상품설명</p>
+          </Col>
+          <Col>
+            <img
+              className="shop-item"
+              src="https://codingapple1.github.io/shop/shoes2.jpg"
+            />{" "}
+            <h4>상품명</h4> <p>상품설명</p>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
