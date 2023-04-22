@@ -49,3 +49,9 @@
 .shop-item {
   width: 80%;
 }
+.me-auto > a {
+  text-decoration: none;
+  margin-right: 15px;
+  color: white;
+  transition: all 0.3s;
+}
