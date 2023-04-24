@@ -4,7 +4,14 @@ import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import bg from "./img/bg.png";
 import { useState } from "react";
 import shoping from "./data.js";
-import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  Outlet,
+  useParams,
+} from "react-router-dom";
 
 function App() {
   let [shoes, setshoes] = useState(shoping);
@@ -54,7 +61,7 @@ function App() {
             </>
           }
         />
-        <Route
+        {/* <Route
           path="/datail"
           element={
             <>
@@ -68,7 +75,9 @@ function App() {
               })}
             </>
           }
-        />
+        /> */}
+        <Route path="/datail/:id" element={<DatailPro shoes={shoes} />} />
+
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>/about/member입니당</div>} />
         </Route>
@@ -101,21 +110,28 @@ function About() {
 }
 
 function DatailPro(props) {
+  // let [shoes] = useState(); 이렇게 쓰면 수정을 두번해야함..
+  let { id } = useParams();
+
+  let 찾은상품 = props.shoes.find(function (x) {
+    return x.id == id;
+  });
+  // props.shoes.find((x) => x.id == id ) 짧은버전
+  console.log(id);
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-6">
           <img
-            src={`https://codingapple1.github.io/shop/shoes${props.i + 1}.jpg`}
+            src={`https://codingapple1.github.io/shop/shoes${id}.jpg`}
             width="100%"
           />
         </div>
         <div className="col-md-6">
-          <h4 className="pt-5">상품명</h4>
-          <h3>{props.shoes.id} </h3>
-          <h4>{props.shoes.title}</h4>
-          <p>{props.shoes.content}</p>
-          <p>{props.shoes.price} </p>
+          <h4 className="pt-5">{찾은상품.title}</h4>
+          <p>{찾은상품.content}</p>
+          <p>{찾은상품.price} </p>
+          <h3>{찾은상품.id} </h3>
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
