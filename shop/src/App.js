@@ -12,6 +12,17 @@ import {
   Outlet,
   useParams,
 } from "react-router-dom";
+import styled from "styled-components";
+let YellowBtn = styled.button`
+  background: ${(props) => props.bg};
+  color: ${(props) => (props.bg == "blue" ? "white" : "black")};
+  padding: 10px;
+`;
+
+let Box = styled.div`
+  background: grey;
+  padding: 20px;
+`;
 
 function App() {
   let [shoes, setshoes] = useState(shoping);
@@ -40,7 +51,9 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-
+      <Box>
+        <YellowBtn bg="blue"> 버튼</YellowBtn>
+      </Box>
       <Routes>
         <Route
           path="/"
