@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import bg from "./img/bg.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import shoping from "./data.js";
 import {
   Routes,
@@ -19,9 +19,15 @@ let YellowBtn = styled.button`
   padding: 10px;
 `;
 
+let NewBtn = styled.button(YellowBtn);
+
 let Box = styled.div`
   background: grey;
   padding: 20px;
+`;
+
+let Div = styled.div`
+  cursor: pointer;
 `;
 
 function App() {
@@ -122,17 +128,52 @@ function About() {
   );
 }
 
+// class Detail2 extends React.Component {
+//   componentDidMount() {
+//     // 컴포넌트 mount시 여기 코드 실행
+//   }
+//   componentDidUpdate() {
+//     // 컴포넌트 update시 여기 코드 실행
+//   }
+//   componentWillUnmount() {
+//     // 컴포넌트 unmount시 여기 코드 실행
+//   }
+// } 옛날방식
+
 function DatailPro(props) {
   // let [shoes] = useState(); 이렇게 쓰면 수정을 두번해야함..
+  // new 방식
+  let [timer, setTimer] = useState(5);
+  useEffect(() => {
+    // console.log("앙녕");
+    // setTimeout(() => {
+    //   alert("세일 끝났다");
+    // }, 2000);
+    setInterval(() => {
+      setTimer(timer);
+    }, 1000);
+  });
+
+  let [count, setCount] = useState(0);
+
   let { id } = useParams();
 
   let 찾은상품 = props.shoes.find(function (x) {
     return x.id == id;
   });
   // props.shoes.find((x) => x.id == id ) 짧은버전
-  console.log(id);
+
   return (
     <div className="container">
+      <div className="alert alert-warning">{timer--} 초이내 구매시 할인</div>
+      {count}
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        버튼
+      </button>
       <div className="row">
         <div className="col-md-6">
           <img
@@ -154,14 +195,16 @@ function DatailPro(props) {
 function Product(props) {
   return (
     <div className="col-md-4">
-      <img
-        src={`https://codingapple1.github.io/shop/shoes${props.i + 1}.jpg`}
-        width="80%"
-      />
-      <h3>{props.shoes.id} </h3>
-      <h4>{props.shoes.title}</h4>
-      <p>{props.shoes.content}</p>
-      <p>{props.shoes.price} </p>
+      <Div>
+        <img
+          src={`https://codingapple1.github.io/shop/shoes${props.i + 1}.jpg`}
+          width="80%"
+        />
+        <h3>{props.shoes.id} </h3>
+        <h4>{props.shoes.title}</h4>
+        <p>{props.shoes.content}</p>
+        <p>{props.shoes.price} </p>
+      </Div>
     </div>
   );
 }
