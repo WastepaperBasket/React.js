@@ -95,7 +95,7 @@ function App() {
             </>
           }
         /> */}
-        <Route path="/datail/:id" element={<DatailPro shoes={shoes} />} />
+        <Route path="/detail/:id" element={<DatailPro shoes={shoes} />} />
 
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>/about/member입니당</div>} />
@@ -144,17 +144,24 @@ function DatailPro(props) {
   // let [shoes] = useState(); 이렇게 쓰면 수정을 두번해야함..
   // new 방식
   let [timer, setTimer] = useState(5);
-  useEffect(() => {
-    // console.log("앙녕");
-    // setTimeout(() => {
-    //   alert("세일 끝났다");
-    // }, 2000);
-    setInterval(() => {
-      setTimer(timer);
-    }, 1000);
-  });
-
+  let [alert2, setAlert] = useState(true);
   let [count, setCount] = useState(0);
+  let [num, setNum] = useState("");
+
+  useEffect(() => {
+    let time = setTimeout(() => {
+      setAlert(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(time);
+    };
+  }, []);
+  useEffect(() => {
+    if (isNaN(num) == true) {
+      alert("그러지마세요!");
+    }
+  }, [num]);
 
   let { id } = useParams();
 
@@ -165,7 +172,9 @@ function DatailPro(props) {
 
   return (
     <div className="container">
-      <div className="alert alert-warning">{timer--} 초이내 구매시 할인</div>
+      {alert2 == true ? (
+        <div className="alert alert-warning">{timer} 초이내 구매시 할인</div>
+      ) : null}
       {count}
       <button
         onClick={() => {
@@ -183,6 +192,11 @@ function DatailPro(props) {
         </div>
         <div className="col-md-6">
           <h4 className="pt-5">{찾은상품.title}</h4>
+          <input
+            onChange={(e) => {
+              setNum(e.target.value);
+            }}
+          ></input>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price} </p>
           <h3>{찾은상품.id} </h3>
