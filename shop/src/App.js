@@ -13,6 +13,8 @@ import {
   useParams,
 } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
+
 let YellowBtn = styled.button`
   background: ${(props) => props.bg};
   color: ${(props) => (props.bg == "blue" ? "white" : "black")};
@@ -31,7 +33,7 @@ let Div = styled.div`
 `;
 
 function App() {
-  let [shoes, setshoes] = useState(shoping);
+  let [shoes, setShoes] = useState(shoping);
   let navigate = useNavigate();
   return (
     <div className="App">
@@ -77,6 +79,21 @@ function App() {
                   })}
                 </Row>
               </Container>
+              <button
+                onClick={() => {
+                  axios
+                    .get("https://codingapple1.github.io/shop/data2.json")
+                    .then((result) => {
+                      let copy = [...shoes, ...result.data];
+                      setShoes(copy);
+                    })
+                    .catch(() => {
+                      console.log("실패");
+                    });
+                }}
+              >
+                버튼
+              </button>
             </>
           }
         />
