@@ -80,11 +80,7 @@ function App() {
                   })}
                 </Row>
               </Container>
-              {/* {alert2 == true ? (
-                <div className="alert alert-warning">
-                  {timer} 초이내 구매시 할인
-                </div>
-              ) : null} */}
+
               {loding == true ? <Loding /> : null}
               <button
                 onClick={() => {
@@ -92,7 +88,7 @@ function App() {
                   setClick(click + 1);
                   if (click == 1) {
                     axios
-                      .get(`https://codingapple1.github.io/shop/data5.json`)
+                      .get(`https://codingapple1.github.io/shop/data2.json`)
                       .then((result) => {
                         let copy = [...shoes, ...result.data];
                         setShoes(copy);
@@ -202,18 +198,17 @@ function DatailPro(props) {
   // new 방식
   let [timer, setTimer] = useState(5);
   let [alert2, setAlert] = useState(true);
-  let [count, setCount] = useState(0);
   let [num, setNum] = useState("");
+  let [tab, setTab] = useState(0);
+  // useEffect(() => {
+  //   let time = setTimeout(() => {
+  //     setAlert(false);
+  //   }, 2000);
 
-  useEffect(() => {
-    let time = setTimeout(() => {
-      setAlert(false);
-    }, 2000);
-
-    return () => {
-      clearTimeout(time);
-    };
-  }, []);
+  //   return () => {
+  //     clearTimeout(time);
+  //   };
+  // }, []);
   useEffect(() => {
     if (isNaN(num) == true) {
       alert("그러지마세요!");
@@ -232,14 +227,7 @@ function DatailPro(props) {
       {alert2 == true ? (
         <div className="alert alert-warning">{timer} 초이내 구매시 할인</div>
       ) : null}
-      {count}
-      <button
-        onClick={() => {
-          setCount(count + 1);
-        }}
-      >
-        버튼
-      </button>
+
       <div className="row">
         <div className="col-md-6">
           <img
@@ -259,10 +247,57 @@ function DatailPro(props) {
           <h3>{찾은상품.id} </h3>
           <button className="btn btn-danger">주문하기</button>
         </div>
+        <Nav fill variant="tabs" defaultActiveKey="link0" className="mt-3">
+          <Nav.Item>
+            <Nav.Link
+              onClick={() => {
+                setTab(0);
+              }}
+              eventKey={"link0"}
+            >
+              Active
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              onClick={() => {
+                setTab(1);
+              }}
+              eventKey={"link1"}
+            >
+              Loooonger NavLink
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              onClick={() => {
+                setTab(2);
+              }}
+              eventKey={"link2"}
+            >
+              Link
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              onClick={() => {
+                setTab(3);
+              }}
+              eventKey={"link3"}
+            >
+              Disabled
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+        {/* {tab == 0 ? <div>내용0</div> : null} */}
+        <TabContent tab={tab} />
       </div>
     </div>
   );
-} // 다른곳에 만들어서 export default DatailPro;  import 잘하면 끝!
+}
+function TabContent({ tab }) {
+  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab];
+}
 function Product(props) {
   return (
     <div className="col-md-4">
