@@ -35,6 +35,8 @@ let Div = styled.div`
 function App() {
   let [shoes, setShoes] = useState(shoping);
   let navigate = useNavigate();
+  let [click, setClick] = useState(1);
+  let [loding, setLoding] = useState(false);
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
@@ -71,7 +73,6 @@ function App() {
                 className="main-bg"
                 style={{ backgroundImage: "url(" + bg + ")" }}
               ></div>
-
               <Container>
                 <Row>
                   {shoes.map((a, i) => {
@@ -79,20 +80,49 @@ function App() {
                   })}
                 </Row>
               </Container>
+              {/* {alert2 == true ? (
+                <div className="alert alert-warning">
+                  {timer} 초이내 구매시 할인
+                </div>
+              ) : null} */}
+              {loding == true ? <Loding /> : null}
               <button
                 onClick={() => {
-                  axios
-                    .get("https://codingapple1.github.io/shop/data2.json")
-                    .then((result) => {
-                      let copy = [...shoes, ...result.data];
-                      setShoes(copy);
-                    })
-                    .catch(() => {
-                      console.log("실패");
-                    });
+                  setLoding(true); // 로딩 ui 출력
+                  setClick(click + 1);
+                  if (click == 1) {
+                    axios
+                      .get(`https://codingapple1.github.io/shop/data5.json`)
+                      .then((result) => {
+                        let copy = [...shoes, ...result.data];
+                        setShoes(copy);
+                        setLoding(false); // 로딩 UI 숨기기
+                      })
+                      .catch(() => {
+                        console.log("실패");
+                      });
+                  }
+                  if (click == 2) {
+                    axios
+                      .get(`https://codingapple1.github.io/shop/data3.json`)
+                      .then((result) => {
+                        let copy = [...shoes, ...result.data];
+                        setShoes(copy);
+                      })
+                      .catch(() => {
+                        console.log("실패");
+                      });
+                  }
+                  if (click == 3) {
+                    alert("더이상 상품이 없습니다.");
+                  }
+                  Promise.all([axios.get("/url1"), axios.get("/url2")]).then(
+                    () => {}
+                  ); //동시에 여러곳 주고받고싶을때
+                  axios.post("/asdfasf", { name: "kim" });
                 }}
               >
-                버튼
+                더보기
               </button>
             </>
           }
@@ -128,6 +158,16 @@ function App() {
     </div>
   );
 }
+
+function Loding() {
+  return (
+    <>
+      <h4>로딩중입니다..</h4>
+      <h4>기다려주세요...</h4>
+    </>
+  );
+}
+
 function Event() {
   return (
     <div>
