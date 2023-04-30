@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import bg from "./img/bg.png";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import shoping from "./data.js";
 import {
   Routes,
@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+let Context1 = createContext();
 
 let YellowBtn = styled.button`
   background: ${(props) => props.bg};
@@ -34,6 +35,7 @@ let Div = styled.div`
 
 function App() {
   let [shoes, setShoes] = useState(shoping);
+  let [재고] = useState([10, 11, 12]);
   let navigate = useNavigate();
   let [click, setClick] = useState(1);
   let [loding, setLoding] = useState(false);
@@ -138,7 +140,15 @@ function App() {
             </>
           }
         /> */}
-        <Route path="/detail/:id" element={<DatailPro shoes={shoes} />} />
+
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ 재고, shoes }}>
+              <DatailPro shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
 
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>/about/member입니당</div>} />
@@ -201,15 +211,9 @@ function DatailPro(props) {
   let [num, setNum] = useState("");
   let [tab, setTab] = useState(0);
   let [fade, setFade] = useState("");
-  // useEffect(() => {
-  //   let time = setTimeout(() => {
-  //     setAlert(false);
-  //   }, 2000);
 
-  //   return () => {
-  //     clearTimeout(time);
-  //   };
-  // }, []);
+  let { 재고, shoes } = useContext(Context1);
+
   useEffect(() => {
     if (isNaN(num) == true) {
       alert("그러지마세요!");
@@ -303,18 +307,18 @@ function DatailPro(props) {
 }
 function TabContent({ tab }) {
   let [fade, setFade] = useState("");
-
+  let { 재고 } = useContext(Context1);
   useEffect(() => {
     let a = setTimeout(() => {
       setFade("end");
-    }, 10);
+    }, 100);
     return () => {
       setFade("");
     }; // useEffect 실행전에 적는 코드
   }, [tab]);
   return (
     <div className={`start ${fade}`}>
-      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+      {[<div>{재고}</div>, <div>내용1</div>, <div>내용2</div>][tab]}
     </div>
   );
 }
