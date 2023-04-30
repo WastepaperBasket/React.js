@@ -200,6 +200,7 @@ function DatailPro(props) {
   let [alert2, setAlert] = useState(true);
   let [num, setNum] = useState("");
   let [tab, setTab] = useState(0);
+  let [fade, setFade] = useState("");
   // useEffect(() => {
   //   let time = setTimeout(() => {
   //     setAlert(false);
@@ -213,6 +214,10 @@ function DatailPro(props) {
     if (isNaN(num) == true) {
       alert("그러지마세요!");
     }
+    setFade("end");
+    return () => {
+      setFade("");
+    };
   }, [num]);
 
   let { id } = useParams();
@@ -223,7 +228,7 @@ function DatailPro(props) {
   // props.shoes.find((x) => x.id == id ) 짧은버전
 
   return (
-    <div className="container">
+    <div className={`container start ${fade}`}>
       {alert2 == true ? (
         <div className="alert alert-warning">{timer} 초이내 구매시 할인</div>
       ) : null}
@@ -236,6 +241,7 @@ function DatailPro(props) {
           />
         </div>
         <div className="col-md-6">
+          <h1>냠냠</h1>
           <h4 className="pt-5">{찾은상품.title}</h4>
           <input
             onChange={(e) => {
@@ -296,7 +302,21 @@ function DatailPro(props) {
   );
 }
 function TabContent({ tab }) {
-  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab];
+  let [fade, setFade] = useState("");
+
+  useEffect(() => {
+    let a = setTimeout(() => {
+      setFade("end");
+    }, 10);
+    return () => {
+      setFade("");
+    }; // useEffect 실행전에 적는 코드
+  }, [tab]);
+  return (
+    <div className={`start ${fade}`}>
+      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+    </div>
+  );
 }
 function Product(props) {
   return (
