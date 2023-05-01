@@ -14,6 +14,8 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import Cart from "./routes/Cart.js";
+
 let Context1 = createContext();
 
 let YellowBtn = styled.button`
@@ -149,7 +151,7 @@ function App() {
             </Context1.Provider>
           }
         />
-
+        <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>/about/member입니당</div>} />
         </Route>
