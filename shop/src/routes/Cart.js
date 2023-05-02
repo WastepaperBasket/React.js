@@ -1,25 +1,34 @@
 // 컴포넌트 페이지는 첫글자가 대문자로...
 
 import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 function Cart() {
+  let a = useSelector((state) => state.user);
+
+  console.log(a);
+
+  let cark = useSelector((state) => state.cark);
   return (
     <div>
       <Table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>COUNT</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <td>{cark[0].id} </td>
+            <td>{cark[0].name}</td>
+            <td>{cark[0].count}</td>
+          </tr>
+          <tr>
+            <td>{cark[1].id} </td>
+            <td>{cark[1].name}</td>
+            <td>{cark[1].count}</td>
           </tr>
         </tbody>
       </Table>
