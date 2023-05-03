@@ -1,35 +1,48 @@
 // 컴포넌트 페이지는 첫글자가 대문자로...
 
 import { Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { changeName, plusCount } from "../store";
 
 function Cart() {
   let a = useSelector((state) => state.user);
-
+  let dispatch = useDispatch();
   console.log(a);
 
   let cark = useSelector((state) => state.cark);
+
   return (
     <div>
+      {a}의 장바구니
       <Table>
         <thead>
           <tr>
             <th>ID</th>
             <th>NAME</th>
             <th>COUNT</th>
+            <th>변경하기</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{cark[0].id} </td>
-            <td>{cark[0].name}</td>
-            <td>{cark[0].count}</td>
-          </tr>
-          <tr>
-            <td>{cark[1].id} </td>
-            <td>{cark[1].name}</td>
-            <td>{cark[1].count}</td>
-          </tr>
+          {cark.map((a, i) => {
+            return (
+              <tr key={i}>
+                <td>{cark[i].id} </td>
+                <td>{cark[i].name}</td>
+                <td>{cark[i].count}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      dispatch(changeName());
+                      dispatch(plusCount(i));
+                    }}
+                  >
+                    +
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </div>
