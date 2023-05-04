@@ -1,16 +1,8 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-let user = createSlice({
-  name: "user",
-  initialState: "kim",
-  reducers: {
-    changeName(state) {
-      return "john " + state;
-    },
-  },
-});
+import user from "./store/userSlice.js";
 
-export let { changeName } = user.actions;
+export let { changeName, increase } = user.actions;
 
 let stock = createSlice({
   name: "stock",
@@ -24,13 +16,16 @@ let cark = createSlice({
     { id: 1, name: "Grey Yordan", count: 3 },
   ],
   reducers: {
-    plusCount(state) {
-      return state[0].count++;
+    increase2(state, action) {
+      state[action.payload].count++;
+    },
+    addItem(state, action) {
+      state.push(action.payload);
     },
   },
 });
 
-export let { plusCount } = cark[0].actions;
+export let { increase2 } = cark.actions;
 
 export default configureStore({
   reducer: {

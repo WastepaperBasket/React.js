@@ -15,7 +15,8 @@ import {
 import styled from "styled-components";
 import axios from "axios";
 import Cart from "./routes/Cart.js";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "./store.js";
 let Context1 = createContext();
 
 let YellowBtn = styled.button`
@@ -225,7 +226,7 @@ function DatailPro(props) {
       setFade("");
     };
   }, [num]);
-
+  let dispatch = useDispatch();
   let { id } = useParams();
 
   let 찾은상품 = props.shoes.find(function (x) {
@@ -257,7 +258,14 @@ function DatailPro(props) {
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price} </p>
           <h3>{찾은상품.id} </h3>
-          <button className="btn btn-danger">주문하기</button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              dispatch(addItem({ id: 1, name: "Red Knit", count: 1 }));
+            }}
+          >
+            주문하기
+          </button>
         </div>
         <Nav fill variant="tabs" defaultActiveKey="link0" className="mt-3">
           <Nav.Item>
