@@ -2,8 +2,6 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 import user from "./store/userSlice.js";
 
-export let { changeName, increase } = user.actions;
-
 let stock = createSlice({
   name: "stock",
   initialState: [10, 11, 12],
@@ -17,7 +15,10 @@ let cark = createSlice({
   ],
   reducers: {
     increase2(state, action) {
-      state[action.payload].count++;
+      let 번호 = state.findIndex((a) => {
+        return a.id == action.payload;
+      });
+      state[번호].count++;
     },
     addItem(state, action) {
       state.push(action.payload);
@@ -25,7 +26,7 @@ let cark = createSlice({
   },
 });
 
-export let { increase2 } = cark.actions;
+export let { increase2, addItem } = cark.actions;
 
 export default configureStore({
   reducer: {

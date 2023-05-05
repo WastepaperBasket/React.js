@@ -13,4 +13,6 @@ let user = createSlice({
   },
 });
 
+export let { changeName, increase } = user.actions;
+
 export default user;

@@ -57,7 +57,7 @@ function App() {
             </Nav.Link>
             <Nav.Link
               onClick={() => {
-                navigate("/datail");
+                navigate("/cart");
               }}
             >
               Features
