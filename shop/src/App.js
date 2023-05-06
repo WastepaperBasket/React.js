@@ -17,6 +17,7 @@ import axios from "axios";
 import Cart from "./routes/Cart.js";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "./store.js";
+import { useQuery } from "react-query";
 let Context1 = createContext();
 
 let YellowBtn = styled.button`
@@ -36,12 +37,38 @@ let Div = styled.div`
   cursor: pointer;
 `;
 
+let White = styled.nav`
+  display: flex;
+  align-items: center;
+  color: white;
+`;
+
 function App() {
+  let obj = { name: "kim" };
+
   let [shoes, setShoes] = useState(shoping);
   let [재고] = useState([10, 11, 12]);
   let navigate = useNavigate();
   let [click, setClick] = useState(1);
   let [loding, setLoding] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify([]));
+  });
+
+  // axios.get('https://codingapple1.github.io/userdata.json').then((a)=>{
+  // a.data
+  // })
+
+  let result = useQuery("작명", () => {
+    return axios
+      .get("https://codingapple1.github.io/userdata.json")
+      .then((a) => {
+        console.log("요청되었노");
+        return a.data;
+      });
+  });
+
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
@@ -63,6 +90,12 @@ function App() {
               Features
             </Nav.Link>
             {/* a 태그와 동일함 */}
+            <White bg="blue" className="ms-auto">
+              {result.isLoading ? "로딩중" : result.data.name}
+              {result.isLoading && "로딩중"}
+              {result.error && "에러남"}
+              {result.data && result.data.name}
+            </White>
           </Nav>
         </Container>
       </Navbar>
@@ -233,6 +266,15 @@ function DatailPro(props) {
     return x.id == id;
   });
   // props.shoes.find((x) => x.id == id ) 짧은버전
+
+  useEffect(() => {
+    let 꺼낸거 = localStorage.getItem("watched");
+    꺼낸거 = JSON.parse(꺼낸거);
+    꺼낸거 = new Set(꺼낸거); //중복제거
+    꺼낸거 = Array.from(꺼낸거);
+    꺼낸거.push(찾은상품.id);
+    localStorage.setItem("watched", JSON.stringify(꺼낸거));
+  }, []);
 
   return (
     <div className={`container start ${fade}`}>
