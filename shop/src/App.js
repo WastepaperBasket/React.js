@@ -2,7 +2,14 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import bg from "./img/bg.png";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useTransition,
+  useDeferredValue,
+} from "react";
 import shoping from "./data.js";
 import {
   Routes,
@@ -15,8 +22,12 @@ import {
 import styled from "styled-components";
 import axios from "axios";
 import Cart from "./routes/Cart.js";
+
+// const Cart = lazy(() => import("./routes/Cart.js"));
+
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "./store.js";
+import { useQuery } from "react-query";
 let Context1 = createContext();
 
 let YellowBtn = styled.button`
@@ -36,14 +47,56 @@ let Div = styled.div`
   cursor: pointer;
 `;
 
+let White = styled.nav`
+  display: flex;
+  align-items: center;
+  color: white;
+`;
+
+let a = new Array(10000).fill(0);
+
 function App() {
+  let obj = { name: "kim" };
+  let [name, setName] = useState("");
+  let [isPending, startTransition] = useTransition();
+  let state = useDeferredValue(name);
   let [shoes, setShoes] = useState(shoping);
   let [재고] = useState([10, 11, 12]);
   let navigate = useNavigate();
   let [click, setClick] = useState(1);
   let [loding, setLoding] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify([]));
+  });
+
+  // axios.get('https://codingapple1.github.io/userdata.json').then((a)=>{
+  // a.data
+  // })
+
+  let result = useQuery("작명", () => {
+    return axios
+      .get("https://codingapple1.github.io/userdata.json")
+      .then((a) => {
+        console.log("요청되었음");
+        return a.data;
+      });
+  });
+
   return (
     <div className="App">
+      <input
+        onChange={(e) => {
+          startTransition(() => {
+            setName(e.target.value);
+          });
+        }}
+      ></input>
+      {isPending
+        ? "로딩중"
+        : a.map(() => {
+            return <div>{state} </div>;
+          })}
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="/">React Shop</Navbar.Brand>
@@ -63,6 +116,12 @@ function App() {
               Features
             </Nav.Link>
             {/* a 태그와 동일함 */}
+            <White bg="blue" className="ms-auto">
+              {result.isLoading ? "로딩중" : result.data.name}
+              {result.isLoading && "로딩중"}
+              {result.error && "에러남"}
+              {result.data && result.data.name}
+            </White>
           </Nav>
         </Container>
       </Navbar>
@@ -233,6 +292,15 @@ function DatailPro(props) {
     return x.id == id;
   });
   // props.shoes.find((x) => x.id == id ) 짧은버전
+
+  useEffect(() => {
+    let 꺼낸거 = localStorage.getItem("watched");
+    꺼낸거 = JSON.parse(꺼낸거);
+    꺼낸거 = new Set(꺼낸거); //중복제거
+    꺼낸거 = Array.from(꺼낸거);
+    꺼낸거.push(찾은상품.id);
+    localStorage.setItem("watched", JSON.stringify(꺼낸거));
+  }, []);
 
   return (
     <div className={`container start ${fade}`}>
