@@ -2,7 +2,14 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import bg from "./img/bg.png";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useTransition,
+  useDeferredValue,
+} from "react";
 import shoping from "./data.js";
 import {
   Routes,
@@ -15,6 +22,9 @@ import {
 import styled from "styled-components";
 import axios from "axios";
 import Cart from "./routes/Cart.js";
+
+// const Cart = lazy(() => import("./routes/Cart.js"));
+
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "./store.js";
 import { useQuery } from "react-query";
@@ -43,9 +53,13 @@ let White = styled.nav`
   color: white;
 `;
 
+let a = new Array(10000).fill(0);
+
 function App() {
   let obj = { name: "kim" };
-
+  let [name, setName] = useState("");
+  let [isPending, startTransition] = useTransition();
+  let state = useDeferredValue(name);
   let [shoes, setShoes] = useState(shoping);
   let [재고] = useState([10, 11, 12]);
   let navigate = useNavigate();
@@ -64,13 +78,25 @@ function App() {
     return axios
       .get("https://codingapple1.github.io/userdata.json")
       .then((a) => {
-        console.log("요청되었노");
+        console.log("요청되었음");
         return a.data;
       });
   });
 
   return (
     <div className="App">
+      <input
+        onChange={(e) => {
+          startTransition(() => {
+            setName(e.target.value);
+          });
+        }}
+      ></input>
+      {isPending
+        ? "로딩중"
+        : a.map(() => {
+            return <div>{state} </div>;
+          })}
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="/">React Shop</Navbar.Brand>
